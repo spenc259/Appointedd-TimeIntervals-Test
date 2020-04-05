@@ -35,7 +35,9 @@ const solve = (workers) => {
     console.info(q2);
     
     let q3 = Question3(workers);
-    console.info(q3);
+    for (let i = 0; i < q3.length; i++) {
+        console.log(q3[i]);
+    }
 }
 
 /* Questions */
@@ -81,6 +83,7 @@ const Question3 = (workers) => {
     let starts = []
     let ends = []
     let overlaps = []
+    let times = []
     // compare each workers endtime to every other workers start time
     // if the endtime is greater than the other start time and less than the other end time we have an overlap
     workers.forEach( (w, i) => {
@@ -102,16 +105,55 @@ const Question3 = (workers) => {
                 // loop the start dates in the sub arrays
                 for (let s = 0; s < v.length; s++) {
                     // is the current end time greater than the current start time 
-                    // AND is the current end time less than the end time for another worker
+                    // AND is the current start time less than the end time for another worker
+                    // Astart < Bend && Aend > Bstart 
                     // AND to make the overlap stricter we say is the current worker start time less than the other workers end time
-                    if (cw[e] > v[s] && cw[e] < ends[i][s] && starts[ind][e] > v[s] && starts[ind][e] < ends[i][s]) {
-                        overlaps.push(v[s] + '/' + cw[e]);
-                    }
+                    // if (cw[e] > v[s] && cw[e] < ends[i][s] && starts[ind][e] > v[s] && starts[ind][e] < ends[i][s]) {
+                    // if () {
+                    //     overlaps.push(v[s] + '/' + cw[e]);
+                    // }
                 }
             })
         }
 
     })
+
+    workers.forEach((w, index) => {
+        times.push(getIntervals(w));
+    })
+
+    // is my start less than their end AND is my end greater than their start
+    // (StartA <= EndB) and (EndA >= StartB)
+    /// A = 1-----3
+    /// B =    2-----4
+
+    // let times = [['1/3','5/7'], ['2/4', '6/8']];
+    // create an array of times start/end
+    // foreach time, split and loop through the times array, split and compare
+    times.forEach((v,wi) => {
+
+        for(let i = 0; i < v.length; i++) {
+            
+            let starttime = new Date(v[i].split('/')[0]); // 1 // new date to convert the times to UTC
+            let endTime = new Date(v[i].split('/')[1]); // 3
+
+            times.forEach((v,wj) => {
+
+                for(let i = 0; i < v.length; i++) {
+                    let othertimes = v[i].split('/');
+                    let otherStartTime = new Date(othertimes[0]) // 2
+                    let otherEndTime = new Date(othertimes[1]) // 4
+                    
+                    if (starttime < otherEndTime && endTime > otherStartTime && wi !== wj) {
+                        // console.log(new Date(Math.max(starttime, otherStartTime)).toISOString() + '/' + new Date(Math.min(endTime,otherEndTime)).toISOString());
+                        overlaps.push(new Date(Math.max(starttime, otherStartTime)).toISOString() + '/' + new Date(Math.min(endTime,otherEndTime)).toISOString())
+                    }
+                }
+            }) 
+        }
+    }) 
+
+    
 
     // ensure we have unique values
     return [...new Set(overlaps)]
