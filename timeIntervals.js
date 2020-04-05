@@ -14,7 +14,7 @@ fs.readFile(path, (err, txtdata) => {
     solve(workers)
 })
 
-let getWorkers = (filedata) => {
+const getWorkers = (filedata) => {
     console.info("getting workers from file...")
     return filedata.map((v,i) => {
         let result = v.match(/\[(.*)\]/);
@@ -26,7 +26,7 @@ let getWorkers = (filedata) => {
     })
 }
 
-let solve = (workers) => {
+const solve = (workers) => {
     console.info("running solver....");
     let q1 = Question1(workers);
     console.info(q1);
@@ -40,7 +40,7 @@ let solve = (workers) => {
 
 /* Questions */
 
-let Question1 = (workers) => {
+const Question1 = (workers) => {
     console.info("\n\nQuestion 1 \nWhat is the starting date and time (in UTC) of the earliest interval where any of the workers are free?");
 
     // we need to do a comparasion of the earlist starting dates of each interval per worker, then we can compare against all workers
@@ -58,7 +58,7 @@ let Question1 = (workers) => {
 }
 
 
-let Question2 = (workers) => {
+const Question2 = (workers) => {
     console.info("\n\nQuestion 2\nWhat is the ending date and time (in UTC) of the latest interval where any of the workers are free?");
     let ends = []
     // get dates of each worker
@@ -75,7 +75,7 @@ let Question2 = (workers) => {
 
 
 
-let Question3 = (workers) => {
+const Question3 = (workers) => {
     console.info("\n\nQuestion 3\nWhat are the intervals of date and times (in UTC) where there are at least 2 workers free?");
 
     let starts = []
@@ -119,7 +119,7 @@ let Question3 = (workers) => {
 
 /* Helpers */
 
-let getStartTimes = (intervals) => {
+const getStartTimes = (intervals) => {
     return intervals.map( (int, index) => {
         // split into start and end
         let dates = int.split('/');
@@ -128,7 +128,7 @@ let getStartTimes = (intervals) => {
     })
 }
 
-let getEndTimes = (intervals) => {
+const getEndTimes = (intervals) => {
     return intervals.map( (int, index) => {
         // split into start and end
         let dates = int.split('/');
@@ -137,7 +137,7 @@ let getEndTimes = (intervals) => {
     })
 }
 
-let getIntervals = (sw) => {
+const getIntervals = (sw) => {
     return sw.split(',');
 }
 
