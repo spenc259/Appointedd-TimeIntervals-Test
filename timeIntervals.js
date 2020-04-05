@@ -124,7 +124,7 @@ const Question3 = (workers) => {
     }) 
 
     // ensure we have unique values
-    // we may have duplicates due to workers being off at different times
+    // we may have duplicates due to different workers being off at the same time
     return [...new Set(overlaps)]
 }
 
