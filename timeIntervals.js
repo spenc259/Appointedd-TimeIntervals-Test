@@ -1,5 +1,5 @@
 const fs = require('fs')
-const path = './testcase.txt'
+const path = './input.txt'
 
 fs.readFile(path, (err, txtdata) => {
     console.info("reading file...")
@@ -16,14 +16,16 @@ fs.readFile(path, (err, txtdata) => {
 
 const getWorkers = (filedata) => {
     console.info("getting workers from file...")
-    return filedata.map((v,i) => {
+    let workers = []
+
+    filedata.forEach((v, i) => {
         let result = v.match(/\[(.*)\]/)
-
-        if (result === null)
-            return
-
-        return result[1]
+        if ( result != null ) {
+            workers.push(v)
+        }
     })
+
+    return workers;
 }
 
 const solve = (workers) => {
@@ -130,7 +132,9 @@ const Question3 = (workers) => {
 
 /* Helpers */
 const getIntervals = (sw) => {
-    return sw.split(',')
+    if (sw != undefined) {
+        return sw.split(',')
+    }
 }
 
 const calcTimes = (intervals, direction) => {
